@@ -535,13 +535,39 @@ function getArtisanCategoryNameWithJoin($conn, $categorieId) {
                                         <label class="labell" for="descriptionInput"></label>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="artisan" id="artisanInput"
-                                            placeholder="Entrer le nom d'artisan">
-                                        <labe class="labell" for="artisanInput"></label>
+                        <select class="form-select" aria-label="Default select example" name="artisan" id="artisanInput">
+                        <option value="" selected>Choisir un artisan</option>
+                        <?php
+                        // Fetch categories from the database
+                        $artisanQuery = "SELECT * FROM artisant";
+                        $artisanResult = mysqli_query($conn, $artisanQuery);
+
+                        if ($artisanResult) {
+                            while ($artisan = mysqli_fetch_assoc($artisanResult)) {
+                                echo '<option value="' . $artisan['id'] . '">'
+                                    . htmlspecialchars($artisan['nom_complet']) . '</option>';
+                            }
+                        }
+                        ?>
+                        </select>
+                                        <label class="labell" for="artisanInput"></label>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="categorie" id="categorieInput"
-                                            placeholder="Entrer la categorie">
+                        <select class="form-select" aria-label="Default select example" name="categorie" id="categorieInput">
+                        <option value="" selected>Choisir une categorie</option>
+                        <?php
+                        // Fetch categories from the database
+                        $categoryQuery = "SELECT * FROM categorie";
+                        $categoryResult = mysqli_query($conn, $categoryQuery);
+
+                        if ($categoryResult) {
+                            while ($category = mysqli_fetch_assoc($categoryResult)) {
+                                echo '<option value="' . $category['id'] . '">'
+                                    . htmlspecialchars($category['nom']) . '</option>';
+                            }
+                        }
+                        ?>
+                        </select>
                                         <label class="labell" for="categorieInput"></label>
                                     </td>
                                     <td></td>
@@ -553,9 +579,8 @@ function getArtisanCategoryNameWithJoin($conn, $categorieId) {
                 </div>
             </div>
         </div>
-        <div class="container-fluid pt-4 px-4" id="produit-section">
-
-
+        
+        <div class="container-fluid pt-4 px-4" id="artisans-section">
             <div class="col-sm-12 col-md-12 col-xl-12 mb-4">
                 <div class="h-100 bg-light rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
@@ -564,7 +589,7 @@ function getArtisanCategoryNameWithJoin($conn, $categorieId) {
                             Ajouter</button>
                     </div>
 
-                    <table class="table">
+                    <table class="table table-hover">
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
@@ -608,14 +633,108 @@ function getArtisanCategoryNameWithJoin($conn, $categorieId) {
                                         </td>
                                         <!-- Edit Column -->
                                         <td><button class="btn btn-sm btn-warning" data-toggle="modal"
-                                        data-target="#exampleModalCenter_<?php echo $row['id']; ?>"><span style="font-size: 1.2em;">&#x270E;
+                                        data-target="#artisanModalCenter_<?php echo $row['id']; ?>"><span style="font-size: 1.2em;">&#x270E;
                                         </span></button></td>
                                         <!-- Delete Column -->
                                         <td><button class="btn btn-sm btn-danger" data-toggle="modal"
-                                        data-target="#deleteExampleModalCenter_<?php echo $row['id']; ?>"><i class="cursor-pointer fa fa-trash"></i></button></td>
-                                    </tr><?php }} ?>
+                                        data-target="#deleteArtisanModalCenter_<?php echo $row['id']; ?>"><i class="cursor-pointer fa fa-trash"></i></button></td>
+                                    </tr>
 
-                                    <form action="database/insert-data.php" method="post">
+    <!-- Modal -->
+    <form action="database/modify-artisant.php" method="post">
+    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+        <div class="modal fade" id="artisanModalCenter_<?php echo $row['id']; ?>" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle" style="color: black">Editer artisan
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style="color: grey">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="produitInput">Nom d'artisan:</label>
+                        <input type="text" class="form-control" name="artisanModal" id="produitInput" value="<?php echo htmlspecialchars($row['nom_complet']); ?>">
+                        <label for="descInput">Ville:</label>
+                        <input type="text" class="form-control" name="villeModal" id="descInput" value="<?php echo htmlspecialchars($row['ville']); ?>">
+                        <label for="ctgrInput">Telephone:</label>
+                        <input type="text" class="form-control" name="telArtisanModal" id="telInput" value="<?php echo htmlspecialchars($row['num_tel']); ?>">
+                        <label for="ctgrArtisanInput">Categorie:</label>
+                        <select class="form-select" aria-label="Default select example" name="ctgrArtisanModal" id="ctgrArtisanInput">
+
+                        <?php
+                        // Fetch categories from the database
+                        $categoryQuery = "SELECT * FROM categorie";
+                        $categoryResult = mysqli_query($conn, $categoryQuery);
+
+                        if ($categoryResult) {
+                            while ($category = mysqli_fetch_assoc($categoryResult)) {
+                                echo '<option value="' . $category['id'] . '"';
+                                // Check if the current category is selected
+                                if ($category['id'] == $row['categorie_Id']) {
+                                    echo ' selected';
+                                }
+                                echo '>' . htmlspecialchars($category['nom']) . '</option>';
+                            }
+                        }
+                        ?>
+                        </select>
+                        <div class="form-check">
+  <input class="form-check-input" type="radio" name="genderModal" id="flexRadioDefault1" value="Homme" <?php echo ($row['genre'] === 'Homme') ? 'checked' : ''; ?>>
+  <label class="form-check-label" for="flexRadioDefault1">
+    Homme
+  </label>
+</div>
+<div class="form-check">
+  <input class="form-check-input" type="radio" name="genderModal" id="flexRadioDefault2" value="Femme" <?php echo ($row['genre'] === 'Femme') ? 'checked' : ''; ?>>
+  <label class="form-check-label" for="flexRadioDefault2">
+    Femme
+  </label>
+</div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <button type="submit" name="edit-artisant" class="btn btn-primary">Enregistrer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+    <!-- Modal -->
+    <form action="database/delete-artisant.php" method="post">
+    <input type="hidden" name="deleted-artisan-id" value="<?php echo $row['id']; ?>">
+        <div class="modal fade" id="deleteArtisanModalCenter_<?php echo $row['id']; ?>" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle" style="color: black">Supprimer
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style="color: grey">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h3 class="text-center">Vous etes sure de la suppression de ce artisan!!</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="submit" name="delete-artisan" class="btn btn-primary">Supprimer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+                                    
+                                    
+                                    <?php }} ?>
+
+                                    <form action="database/insert-artisant.php" method="post">
                                 <tr class="artisanForm-section container-fluid d-none">
                                     <td><button type="submit" name="submitArtisan" class="btn btn-sm btn-success">
                                             Ajouter <i class="fa fa-plus"></i>
@@ -636,12 +755,37 @@ function getArtisanCategoryNameWithJoin($conn, $categorieId) {
                                         <labe class="labell" for="telInput"></label>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" name="categorie" id="artisanategorieInput"
-                                            placeholder="Entrer la categorie">
+                                        
+                        <select class="form-select" aria-label="Default select example" name="categorie" id="artisanategorieInput">
+                        <option value="" selected>Choisir une categorie</option>
+                        <?php
+                        // Fetch categories from the database
+                        $categoryQuery = "SELECT * FROM categorie";
+                        $categoryResult = mysqli_query($conn, $categoryQuery);
+
+                        if ($categoryResult) {
+                            while ($category = mysqli_fetch_assoc($categoryResult)) {
+                                echo '<option value="' . $category['id'] . '">'
+                                    . htmlspecialchars($category['nom']) . '</option>';
+                            }
+                        }
+                        ?>
+                        </select>
                                         <label class="labell" for="artisanategorieInput"></label>
                                     </td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><div class="form-check">
+  <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault1" value="Homme">
+  <label class="form-check-label" for="flexRadioDefault1">
+    Homme
+  </label>
+</div></td>
+                                    <td><div class="form-check">
+  <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault2" value="Femme">
+  <label class="form-check-label" for="flexRadioDefault2">
+    Femme
+  </label>
+</div></td>
+<td></td>
                                 </tr>
                             </form>
                         </tbody>

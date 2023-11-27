@@ -119,43 +119,43 @@ document.querySelector('.sidebar-toggler').addEventListener('click', function ()
 
 const dashboard = document.getElementById('content-container');
 const articlesSection = document.getElementById('articles-section');
-const produitSection = document.getElementById('produit-section');
-const salesLink = document.getElementById('article-link');
+const artisansSection = document.getElementById('artisans-section');
+const articlesLink = document.getElementById('article-link');
 const artisanLink = document.getElementById('artisan-link');
 const dashboardLink = document.getElementById('dashboard-link');
 
 function showArticlesSection() {
-  produitSection.style.display = 'none';
+  artisansSection.style.display = 'none';
   dashboard.style.display = 'none';
   articlesSection.style.display = 'block';
 
   artisanLink.classList.remove('active');
   dashboardLink.classList.remove('active');
-  artisanLink.classList.add('active');
+  articlesLink.classList.add('active');
 }
 
 function showDashboardSection() {
   articlesSection.style.display = 'none';
-  produitSection.style.display = 'none';
+  artisansSection.style.display = 'none';
   dashboard.style.display = 'block';
 
-  artisanLink.classList.remove('active');
+  articlesLink.classList.remove('active');
   artisanLink.classList.remove('active');
   dashboardLink.classList.add('active');
 }
 
-function showProduitSection() {
+function showArtisanSection() {
   dashboard.style.display = 'none';
   articlesSection.style.display = 'none';
-  produitSection.style.display = 'block';
+  artisansSection.style.display = 'block';
 
-  artisanLink.classList.remove('active');
+  articlesLink.classList.remove('active');
   dashboardLink.classList.remove('active');
   artisanLink.classList.add('active');
 }
 
-artisanLink.addEventListener('click', showArticlesSection);
-artisanLink.addEventListener('click', showProduitSection);
+articlesLink.addEventListener('click', showArticlesSection);
+artisanLink.addEventListener('click', showArtisanSection);
 dashboardLink.addEventListener('click', showDashboardSection);
 showDashboardSection();
 

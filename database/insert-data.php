@@ -7,16 +7,16 @@ if(isset($_POST["submit"])){
     $_categorie = $_POST["categorie"];
 
     if(empty($_produit) || empty($_desc) || empty($_artisan) || empty($_categorie)){
-        header("location:dashboard.php?message= Champ vide");
+        header("location: http://localhost/brief4-sanaat-bladi/dashboard.php?message=Champ%20vide");
         exit;
 }else{
-    $query = "INSERT INTO `produit` (`nom`, `description`) VALUES ('$_produit', '$_desc')";
+    $query = "INSERT INTO `produit` (`nom`, `description`, `artisant_Id`, `categorie_Id`) VALUES ('$_produit', '$_desc', '$_artisan', '$_categorie')";
 
     $result = mysqli_query($conn, $query);
     if(!$result){
         die("La requête a échoué".mysqli_error($conn));
     }else{
-        header("location: http://localhost/brief4-sanaat-bladi/dashboard.php?insert_msg=Enregistrement reussi");
+        header("location: http://localhost/brief4-sanaat-bladi/dashboard.php?message=Enregistrement%20reussi");
         exit;
     }
 }
