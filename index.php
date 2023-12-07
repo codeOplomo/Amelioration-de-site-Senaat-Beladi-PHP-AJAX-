@@ -49,7 +49,7 @@
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
           </div>
           <div class="carousel-inner">
-            <div class="carousel-item w-100 active p-5 allSliders" style="background-image: url(img/swipImg.jpg);">
+            <div class="carousel-item w-100 active p-5 allSliders" >
               <div class="d-flex flex-column align-items-center">
                 <span class="w-50 mt-5">Découvrez l'essence du Maroc</span>
                 <h1 class="display-1 w-50 mb-5">Bienvenue à Sanaat Beladi - Là où la tradition rencontre l'art</h1>

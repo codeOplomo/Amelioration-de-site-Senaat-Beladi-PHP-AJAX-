@@ -1,4 +1,4 @@
-
+console.log(84684 );
 var ctx = document.getElementById("myChart").getContext('2d');
 var myChart = new Chart(ctx, {
   type: 'bar',
@@ -198,32 +198,54 @@ $(document).ready(function () {
   });
 });
 
+$(document).ready(function () {
+  // Attach a click event to the search button
+  $('#searchButton').click(function () {
+      // Get the search query from the input field
+      var query = $('#searchInput').val();
+
+      // Perform AJAX request
+      $.ajax({
+          type: 'GET',
+          url: 'search.php', // Replace with the actual URL for your search logic
+          data: { query: query },
+          success: function (response) {
+              // Handle the response, e.g., update a div with the search results
+              $('#searchResults').html(response);
+          },
+          error: function (error) {
+              console.log('Error:', error);
+          }
+      });
+  });
+});
+
 
 //artisan form section 
 
 document.addEventListener('DOMContentLoaded', function () {
   var artisanFormSection = document.querySelector('.artisanForm-section');
-
   var ajoutArtisanButton = document.getElementById('ajout-artisan');
 
+  console.log(ajoutArtisanButton);
   ajoutArtisanButton.addEventListener('click', function () {
       artisanFormSection.classList.toggle('d-none');
   });
 });
 
 
-// $(document).ready(function() {
+// $(document).ready(function () {
 //   // Hide the form section initially
 //   $('.form-section').hide();
 
 //   // Show the form section when clicking "Ajouter" button
-//   $('#ajout-produit').on('click', function() {
-//       $('.form-section').show();
+//   $('#ajout-produit').on('click', function () {
+//     $('.form-section').show();
 //   });
 
 //   // Hide the form section when clicking submit button
-//   $('form').submit(function() {
-//       $('.form-section').hide();
+//   $('form').submit(function () {
+//     $('.form-section').hide();
 //   });
 // });
 
